@@ -1,0 +1,19 @@
+- hosts: all
+  tasks:
+  - name: Python 2.7
+    apt: 
+      name: python=2.7*
+      state: present
+    become: yes
+
+  - name: Pip
+    apt:
+      name: python-pip
+    become: yes
+
+  - name: Pip Install Docker API
+    pip: 
+      name: docker
+
+  - name: Start new docker - Jenkins LTS
+    debug: msg="Hello World!"
