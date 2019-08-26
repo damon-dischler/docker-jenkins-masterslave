@@ -1,3 +1,4 @@
 ---
 image_name: jenkins/jenkins:lts
+container_name: jenkins_master
 

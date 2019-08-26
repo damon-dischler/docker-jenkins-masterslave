@@ -1,4 +1,6 @@
 - hosts: all
+  vars_files: vars.yml
+
   tasks:
   - name: Python 2.7
     apt: 
@@ -15,5 +17,19 @@
     pip: 
       name: docker
 
-  - name: Start new docker - Jenkins LTS
-    debug: msg="Hello World!"
+  - name: Configure Docker Container {{ image_name }}
+    docker_container:
+      name: "{{ container_name }}"
+      image: "{{ image_name }}"
+      state: present
+      ports:
+      - "8080:8080"
+      volumes:
+      - "jenkins_home:/var/jenkins_home"
+    register: master_container
+
+  - name: Start Docker Container {{ container_name }}
+    docker_container:
+      name: "{{ container_name }}"
+      state: started
+
