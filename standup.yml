@@ -17,6 +17,12 @@
     pip: 
       name: docker
 
+  - name: Build Master Docker Image
+    docker_image:
+      name: "{{ master.image_name }}"
+      source: build
+      path: Dockerfile
+
   - name: Configure Master Docker Container {{ master.image_name }}
     docker_container:
       name: "{{ master.container_name }}"
@@ -37,6 +43,5 @@
   - name: Build Agent Docker Images
     docker_image:
       name: "{{ item.image_name }}"
-      tag: "{{ item.tag }}"
       source: pull
     loop: "{{ clients }}"

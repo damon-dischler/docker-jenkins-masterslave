@@ -1,9 +1,9 @@
 ---
 master:
-  image_name: jenkins/jenkins:lts
+  image_name: jenkinsdocker
   container_name: jenkins_master
 
 clients:
-  - image_name: ubuntu
-    tag: latest
+  - image_name: ubuntu:latest
+
 
