@@ -26,6 +26,7 @@
       - "8080:8080"
       volumes:
       - "jenkins_home:/var/jenkins_home"
+      - "/var/run/docker.sock:{{ lookup('env','DOCKER_HOST') }}"
     register: master_container
 
   - name: Start Master Docker Container {{ master.container_name }}
