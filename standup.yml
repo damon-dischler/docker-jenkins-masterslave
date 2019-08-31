@@ -1,5 +1,7 @@
 - hosts: all
-  vars_files: vars.yml
+  vars_files: 
+    - vars.yml
+    - vault.yml
 
   tasks:
   - name: Python 2.7
@@ -17,22 +19,32 @@
     pip: 
       name: docker
 
+  - name: Make image dir
+    file:
+      path: images
+      state: directory
+    
   - name: Build Master Docker Image
     docker_image:
       name: "{{ master.image_name }}"
+      build:
+        pull: true
+        path: .
       source: build
-      path: Dockerfile
+      state: present
 
   - name: Configure Master Docker Container {{ master.image_name }}
     docker_container:
       name: "{{ master.container_name }}"
       image: "{{ master.image_name }}"
       state: present
+      tty: true
+      detach: true
       ports:
       - "8080:8080"
       volumes:
       - "jenkins_home:/var/jenkins_home"
-      - "/var/run/docker.sock:{{ lookup('env','DOCKER_HOST') }}"
+      - "{{ lookup('env','DOCKER_HOST') }}:/var/run/docker.sock"
     register: master_container
 
   - name: Start Master Docker Container {{ master.container_name }}

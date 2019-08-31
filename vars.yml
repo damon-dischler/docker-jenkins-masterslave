@@ -1,6 +1,6 @@
 ---
 master:
-  image_name: jenkinsdocker
+  image_name: damon-dischler/jenkinsmaster
   container_name: jenkins_master
 
 clients:
